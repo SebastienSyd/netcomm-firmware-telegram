@@ -3,8 +3,16 @@ import json
 import datetime
 import logging
 
+log_filename = "output.log"
+netcomm_uri = "support.netcommwireless.com"
+netcomm_endpoint = "/api/ProductModels/"
+netcomm_model = "NF18MESH"
 
-logging.basicConfig(filename='output.log', level=logging.DEBUG, format='%(asctime)s-%(process)d-%(levelname)s-%(message)s')
+logging.basicConfig(
+  filename='log/%s' % log_filename, 
+  level=logging.DEBUG, 
+  format='%(asctime)s-%(process)d-%(levelname)s-%(message)s'
+)
 
 def filter_firware(j):
   ''' Filters json result to only get the firmware '''
@@ -35,7 +43,7 @@ def get_latest_firmware(j):
   return latest_firmware
 
 def main():
-  url = "https://support.netcommwireless.com/api/ProductModels/NF18MESH"
+  url = "https://{}{}{}".format(netcomm_uri, netcomm_endpoint, netcomm_model)
   res = requests.get(url)
   res.raise_for_status()
 
